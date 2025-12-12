@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>High Vision Construction</title>
+  <style>
+    /* Basic layout and typography */
+    :root{
+      --brand: #0a3d62;
+      --accent: #1e5799;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --page-bg:#f8fafc;
+      --max-width:1100px;
+    }
+    html,body{height:100%;margin:0;background:var(--page-bg);font-family: 'Segoe UI', Roboto, Arial, sans-serif;color:#222;}
+    .container{max-width:var(--max-width);margin:30px auto;padding:20px;}
+    header{background:linear-gradient(180deg,var(--brand),var(--accent));color:#fff;padding:48px 20px;border-radius:8px;}
+    header h1{margin:0;font-size:36px;letter-spacing:0.6px;}
+    header p{margin:8px 0 0;font-size:16px;opacity:0.95;}
+    .row{display:flex;gap:20px;flex-wrap:wrap;}
+    .card{background:var(--card);border-radius:10px;padding:22px;box-shadow:0 6px 18px rgba(10,61,98,0.08);flex:1 1 320px;}
+    h2{color:var(--brand);margin:0 0 12px;font-size:20px;border-bottom:3px solid rgba(10,61,98,0.06);padding-bottom:8px;}
+    p{margin:0 0 14px;font-size:15.5px;line-height:1.7;color:#222;text-align:justify;}
+    ul{margin:8px 0 16px;padding-left:20px;}
+    li{margin-bottom:8px;line-height:1.6;}
+    .btn{display:inline-block;background:var(--brand);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;border:none;cursor:pointer;}
+    .btn.secondary{background:transparent;color:var(--brand);border:2px solid var(--brand);}
+    footer{margin-top:26px;text-align:center;color:#fff;padding:18px;border-radius:8px;background:linear-gradient(180deg,var(--brand),var(--accent));}
+    .contact-box{display:none;margin-top:14px;padding:14px;border-radius:8px;background:#f4f6f8;border:1px solid #e6eef8;text-align:center;}
+    .meta{color:var(--muted);font-size:14px;}
+    /* Urdu styling */
+    .urdu{direction:rtl;font-family: 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', 'Jameel Noori Nastaleeq', Arial, sans-serif; font-size:17px; line-height:2;}
+    .lang-switch{display:flex;gap:8px;align-items:center;margin-top:12px;}
+    @media(max-width:720px){
+      header h1{font-size:28px;}
+      .row{flex-direction:column;}
+    }
+    /* small owner message style */
+    .owner-msg{border-left:4px solid var(--brand);padding-left:12px;margin-top:8px;background:linear-gradient(90deg,#fff,#fbfdff);border-radius:6px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>High Vision Construction</h1>
+      <p>Building the Future with Strength, Integrity, and Excellence</p>
+    </header>
+
+    <!-- Navigation shortcuts -->
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+      <a class="btn" href="#about">About</a>
+      <a class="btn secondary" href="#services">Services</a>
+      <a class="btn secondary" href="#contact">Contact</a>
+    </div>
+
+    <!-- English profile card -->
+    <div class="row" style="margin-top:18px">
+      <div class="card" id="about">
+        <h2>About High Vision Construction</h2>
+        <p><strong>High Vision Construction</strong>, led by <strong>Abbas Shah</strong>, is a professional building construction company committed to delivering safe, durable, and high-quality structures. We combine skilled craftsmanship, modern techniques, and careful project management to complete residential and commercial projects on time and within budget.</p>
+
+        <h2>Why Choose Us</h2>
+        <ul>
+          <li><strong>Experience:</strong> Years of hands-on experience in building and renovation.</li>
+          <li><strong>Quality:</strong> We use trusted materials and strict quality-control procedures.</li>
+          <li><strong>Safety:</strong> Site safety and structural integrity are our top priorities.</li>
+          <li><strong>Trust:</strong> Honest pricing and clear communication throughout the project.</li>
+        </ul>
+
+        <h2>Services</h2>
+        <p>We offer a full range of construction services, including:</p>
+        <ul>
+          <li>Building Construction & Renovation (residential & commercial)</li>
+          <li>Interior and Exterior Finishing</li>
+          <li>Structural Design Support and Planning</li>
+          <li>Project Management & Site Supervision</li>
+          <li>Material Sourcing and Quality Control</li>
+        </ul>
+
+        <h2>Our Mission</h2>
+        <p>Our mission is to build spaces that endure — combining modern engineering, reliable materials, and a dedicated workforce. We aim to exceed client expectations by delivering projects that are functional, safe, and beautiful.</p>
+
+        <h2>Our Vision</h2>
+        <p>We envision a future where High Vision Construction is known across the region for integrity, technical excellence, and lasting relationships with clients and partners.</p>
+
+        <div class="owner-msg">
+          <strong>Message from the Owner — Abbas Shah</strong>
+          <p style="margin-top:8px">“At High Vision Construction, we believe every project is a promise. I personally ensure every job receives my attention to detail and commitment to quality. Contact us and let’s build something lasting together.”</p>
+        </div>
+      </div>
+
+      <!-- Urdu full profile -->
+      <div class="card" id="urdu">
+        <h2 style="text-align:right">ہائی وژن کنسٹرکشن — مکمل پروفائل</h2>
+
+        <div class="urdu">
+          <p><strong>ہائی وژن کنسٹرکشن</strong>، قیادت میں <strong>عباس شاہ</strong>، ایک پیشہ ور تعمیراتی کمپنی ہے جو پائیدار، محفوظ اور اعلی معیار کے ڈھانچے بنانے کے لیے وقف ہے۔ ہم تجربہ کار کاریگر، جدید طریقے اور بہترین منصوبہ بندی کے ذریعے رہائشی اور تجارتی دونوں اقسام کے منصوبے کامیابی سے مکمل کرتے ہیں۔</p>
+
+          <h3 style="margin-top:8px">ہمیں کیوں منتخب کریں</h3>
+          <ul style="text-align:right; padding-right:18px;">
+            <li>تجربہ: طویل عرصہ کا عملی تجربہ۔</li>
+            <li>معیار: قابل اعتماد مواد اور سخت کوالٹی کنٹرول۔</li>
+            <li>حفاظت: سائٹ کی حفاظت اور ساختی مضبوطی ہماری اولین ترجیح ہے۔</li>
+            <li>ایمانداری: صاف شفاف قیمتیں اور کھلی مواصلت۔</li>
+          </ul>
+
+          <h3 style="margin-top:6px">ہماری خدمات</h3>
+          <ul style="text-align:right; padding-right:18px;">
+            <li>تعمیراتی کام اور تزئین و آرائش (رہائشی و تجارتی)</li>
+            <li>اندرونی و بیرونی فنیشنگ</li>
+            <li>ساختی ڈیزائن اور منصوبہ بندی</li>
+            <li>پراجیکٹ مینجمنٹ اور سائٹ سپروائزن</li>
+            <li>معیار کی یقین دہانی اور مواد کی فراہمی</li>
+          </ul>
+
+          <h3 style="margin-top:6px">ہمارا مشن</h3>
+          <p>ہمارا مشن ایسے پائیدار اور محفوظ ماحول تعمیر کرنا ہے جو وقت کے ساتھ قائم رہیں۔ ہم جدید طریقوں اور خالص ارادے کے ساتھ کلائنٹ کی توقعات سے بڑھ کر خدمات فراہم کرنے کی کوشش کرتے ہیں۔</p>
+
+          <h3 style="margin-top:6px">ہمارا وژن</h3>
+          <p>ہمارا وژن یہ ہے کہ ہائی وژن کنسٹرکشن علاقے میں ایک معتبر نام بنے جو تکنیکی مہارت، ایمانداری اور دیرپا تعلقات کے لیے جانا جائے۔</p>
+
+          <div style="text-align:right; margin-top:10px;">
+            <strong>مالک کا پیغام — عباس شاہ</strong>
+            <p style="margin-top:8px">“ہر پراجیکٹ ہمارے لیے ایک وعدہ ہے۔ میں خود ہر کام کی نگرانی کرتا ہوں تا کہ معیار اور حفاظت دونوں یقینی بن سکیں۔ ہمیں موقع دیں، ہم آپ کی توقعات پر پورا اتریں گے۔”</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services / Projects example -->
+    <div class="row" style="margin-top:18px">
+      <div class="card" id="services">
+        <h2>Key Services & Project Highlights</h2>
+        <p>We deliver turnkey construction solutions. Recent highlights include residential buildings, small commercial complexes, and complex interior fit-outs. We maintain strong vendor relationships to source reliable materials and skilled labor for timely completion.</p>
+
+        <h2>Quality & Safety</h2>
+        <p>We enforce strict on-site safety and quality checks. All projects follow structural standards and local building codes. Our supervisors and engineers perform regular inspections to ensure workmanship and material quality.</p>
+
+        <h2>How We Work</h2>
+        <ul>
+          <li>Initial consultation & site survey</li>
+          <li>Detailed estimate & schedule</li>
+          <li>Material selection & procurement</li>
+          <li>Construction, monitoring & client updates</li>
+          <li>Final inspection & handover</li>
+        </ul>
+      </div>
+
+      <!-- Contact card -->
+      <div class="card" id="contact">
+        <h2>Contact High Vision</h2>
+        <p class="meta">Owner: <strong>Abbas Shah</strong></p>
+        <p class="meta">Phone: <a href="tel:03325588425">03325588425</a></p>
+        <p class="meta">Email: <a href="mailto:highv827@gmail.com">highv827@gmail.com</a></p>
+
+        <button class="btn" onclick="toggleContact()">Show / Hide Contact Details</button>
+
+        <div class="contact-box" id="cbox">
+          <p><strong>Owner:</strong> Abbas Shah</p>
+          <p><strong>Phone:</strong> <a href="tel:03325588425">03325588425</a></p>
+          <p><strong>Email:</strong> <a href="mailto:highv827@gmail.com">highv827@gmail.com</a></p>
+          <p><strong>Office:</strong> Under Renovation</p>
+          <p style="margin-top:8px;font-size:14px;color:var(--muted)">We respond quickly — call or message for a free consultation.</p>
+        </div>
+
+        <p style="margin-top:12px;"><a class="btn secondary" href="mailto:highv827@gmail.com">Email Us</a></p>
+      </div>
+    </div>
+
+    <footer>
+      &copy; 2025 High Vision Construction — All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    function toggleContact(){
+      const el = document.getElementById('cbox');
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+      // smooth scroll to contact when opening
+      if(el.style.display === 'block') el.scrollIntoView({behavior:'smooth'});
+    }
+  </script>
+</body>
+</html>
