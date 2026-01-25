@@ -44,3 +44,33 @@ const Admin = {
         if (logEl.children.length > 5) logEl.lastChild.remove();
     }
 };
+// Add to the top of admin.js
+const platforms = []; // This will hold your custom world
+
+// Add these functions to your Admin object
+const Admin = {
+    // ... existing functions ...
+    
+    isEditorMode: false,
+
+    toggleEditor() {
+        this.isEditorMode = !this.isEditorMode;
+        this.log(`EDITOR: ${this.isEditorMode ? "ON - CLICK TO BUILD" : "OFF"}`);
+    },
+
+    spawnPlatform(mouseX, mouseY) {
+        // Snap to a 40px grid for professional alignment
+        const snapX = Math.floor(mouseX / 40) * 40;
+        const snapY = Math.floor(mouseY / 40) * 40;
+        
+        platforms.push({ x: snapX, y: snapY, w: 80, h: 20 });
+        this.log(`PLATFORM CREATED AT ${snapX}, ${snapY}`);
+    }
+};
+
+// Listen for clicks on the canvas
+canvas.addEventListener('mousedown', (e) => {
+    if (Admin.isEditorMode) {
+        Admin.spawnPlatform(e.clientX, e.clientY);
+    }
+});
