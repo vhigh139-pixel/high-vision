@@ -74,3 +74,32 @@ canvas.addEventListener('mousedown', (e) => {
         Admin.spawnPlatform(e.clientX, e.clientY);
     }
 });
+// Add these functions to your Admin object in admin.js
+const Admin = {
+    // ... existing functions ...
+
+    saveToBrowser() {
+        localStorage.setItem('highVisionLevel', JSON.stringify(platforms));
+        this.log("LEVEL SAVED TO BROWSER");
+    },
+
+    loadFromBrowser() {
+        const saved = localStorage.getItem('highVisionLevel');
+        if (saved) {
+            platforms.length = 0;
+            platforms.push(...JSON.parse(saved));
+            this.log("LEVEL LOADED");
+        }
+    },
+
+    exportToConsole() {
+        const data = JSON.stringify(platforms);
+        console.log("%c --- LEVEL DATA EXPORT ---", "color: #00ffcc; font-weight: bold;");
+        console.log(data);
+        this.log("DATA SENT TO CONSOLE (F12)");
+        alert("Check your browser console (F12) to copy your level code!");
+    }
+};
+
+// Auto-load on startup
+window.onload = () => { Admin.loadFromBrowser(); };
