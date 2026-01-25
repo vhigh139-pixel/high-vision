@@ -147,3 +147,29 @@ const Admin = {
         });
     }
 };
+// Add to Admin object in admin.js
+const Admin = {
+    // ... all your previous code ...
+
+    forcePush(mouseX, mouseY) {
+        this.log("ADMIN FORCE EXERTED");
+        army.forEach(en => {
+            const dx = en.x - mouseX;
+            const dy = en.y - mouseY;
+            const distance = Math.sqrt(dx*dx + dy*dy);
+            
+            if (distance < 300) { // Range of the push
+                const force = (300 - distance) / 10;
+                en.x += dx * force * 0.1;
+                // Add a "knockback" effect
+                en.y -= 50; 
+            }
+        });
+    }
+};
+
+// Handle Right-Click for Force Push
+canvas.addEventListener('contextmenu', (e) => {
+    e.preventDefault(); // Stop the normal menu from appearing
+    Admin.forcePush(e.clientX, e.clientY);
+});
