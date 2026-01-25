@@ -111,4 +111,14 @@ function loop(t) {
     player.update(dt);
     player.draw();
     // ... (rest of loop) ...
+}// Inside your loop(t) in game.js, before drawing platforms
+if (Admin.isEditorMode) {
+    ctx.strokeStyle = "rgba(0, 255, 204, 0.1)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 40) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
 }
