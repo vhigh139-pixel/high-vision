@@ -122,3 +122,28 @@ if (Admin.isEditorMode) {
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
     }
 }
+// Inside your loop(t) in game.js
+function loop(t) {
+    // ... (clear screen) ...
+
+    // Reset gravity to normal every frame
+    if (!Admin.isNoclip) player.grav = 1500;
+
+    // DRAW & APPLY GRAVITY ZONES
+    gravityZones.forEach(z => {
+        ctx.fillStyle = "rgba(0, 255, 204, 0.2)"; // Transparent teal
+        ctx.fillRect(z.x, z.y, z.w, z.h);
+        ctx.strokeStyle = "#00ffcc";
+        ctx.strokeRect(z.x, z.y, z.w, z.h);
+
+        // Check if player is inside the zone
+        if (player.x < z.x + z.w && player.x + player.w > z.x &&
+            player.y < z.y + z.h && player.y + player.h > z.y) {
+                player.grav = z.strength; // Admin Override: Low Gravity!
+                ctx.fillStyle = "white";
+                ctx.fillText("LOW-G ZONE", player.x, player.y - 10);
+        }
+    });
+
+    // ... (rest of your drawing code for platforms and player) ...
+}
