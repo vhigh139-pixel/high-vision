@@ -87,3 +87,28 @@ function loop(t) {
     requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
+// Inside your loop(t) function in game.js
+function loop(t) {
+    // ... (clear screen and draw floor) ...
+
+    // DRAW & HANDLE PLATFORMS
+    ctx.fillStyle = "#444";
+    platforms.forEach(p => {
+        ctx.fillRect(p.x, p.y, p.w, p.h);
+
+        // Physical Collision (Only if not in Noclip)
+        if (!Admin.isNoclip && 
+            player.x < p.x + p.w &&
+            player.x + player.w > p.x &&
+            player.y + player.h > p.y &&
+            player.y + player.h < p.y + p.h + 10 &&
+            player.vy >= 0) {
+                player.y = p.y - player.h;
+                player.vy = 0;
+        }
+    });
+
+    player.update(dt);
+    player.draw();
+    // ... (rest of loop) ...
+}
