@@ -21,4 +21,26 @@ const Admin = {
     spawnEnemy() {
         army.push(new Enemy(canvas.width + 50));
     }
+};// Add these to the existing Admin object in admin.js
+const Admin = {
+    // ... your existing functions ...
+
+    isNoclip: false,
+
+    toggleNoclip() {
+        this.isNoclip = !this.isNoclip;
+        // When noclip is on, gravity stops for the player
+        player.grav = this.isNoclip ? 0 : 1500;
+        player.vy = 0; // Stop any current falling
+        this.log(`NOCLIP: ${this.isNoclip ? "ENABLED" : "DISABLED"}`);
+    },
+
+    log(message) {
+        const logEl = document.getElementById('admin-log');
+        const entry = document.createElement('div');
+        entry.innerText = `> ${message}`;
+        logEl.prepend(entry);
+        // Keep only the last 5 logs
+        if (logEl.children.length > 5) logEl.lastChild.remove();
+    }
 };
