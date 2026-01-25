@@ -144,6 +144,19 @@ function loop(t) {
                 ctx.fillText("LOW-G ZONE", player.x, player.y - 10);
         }
     });
+// Update the Enemy.update function in game.js
+update(dt) {
+    if (worldTimeScale === 0 || Admin.aiState === 'STAY') return;
 
+    if (Admin.aiState === 'CHASE') {
+        // Simple tracking: Move toward the player
+        let direction = (player.x > this.x) ? 1 : -1;
+        this.x += (150 * direction) * dt;
+    } else {
+        // Standard Patrol logic
+        this.x -= (200 * worldTimeScale) * dt;
+        if (this.x < -40) this.x = canvas.width;
+    }
+}
     // ... (rest of your drawing code for platforms and player) ...
 }
