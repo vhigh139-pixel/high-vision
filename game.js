@@ -160,3 +160,17 @@ update(dt) {
 }
     // ... (rest of your drawing code for platforms and player) ...
 }
+// Inside your loop(t) in game.js, at the very beginning
+function loop(t) {
+    let dt = (t - lastTime) / 1000 || 0; lastTime = t;
+
+    // ADMIN GLITCH EFFECT
+    if (player.isGod) {
+        ctx.fillStyle = `rgba(${Math.random()*20}, ${Math.random()*40}, ${Math.random()*20}, 1)`;
+    } else {
+        ctx.fillStyle = "#050505";
+    }
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // ... rest of your code ...
+}
