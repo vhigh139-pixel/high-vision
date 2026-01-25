@@ -38,3 +38,12 @@
     SWITCH BRUSH: <span id="brush-txt">PLATFORM</span>
 </button>
 <button onclick="gravityZones.length = 0; Admin.log('ZONES CLEARED')">CLEAR ZONES</button>
+<hr style="border-color: #333;">
+<div id="army-controls">
+    <p style="font-size: 10px; margin: 5px 0;">ARMY COMMANDS:</p>
+    <div style="display: flex; gap: 2px;">
+        <button class="ai-btn" onclick="Admin.setArmyBehavior('PATROL')" style="font-size: 9px;">PATROL</button>
+        <button class="ai-btn" onclick="Admin.setArmyBehavior('CHASE')" style="font-size: 9px;">CHASE</button>
+        <button class="ai-btn" onclick="Admin.setArmyBehavior('STAY')" style="font-size: 9px;">STAY</button>
+    </div>
+</div>
