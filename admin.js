@@ -132,3 +132,18 @@ canvas.addEventListener('mousedown', (e) => {
         }
     }
 });
+// Add these to your Admin object in admin.js
+const Admin = {
+    // ... existing functions ...
+    aiState: 'PATROL', // Options: 'PATROL', 'CHASE', 'STAY'
+
+    setArmyBehavior(newState) {
+        this.aiState = newState;
+        this.log(`ARMY BEHAVIOR: ${newState}`);
+        
+        // Visual feedback on the buttons
+        document.querySelectorAll('.ai-btn').forEach(btn => {
+            btn.style.borderColor = (btn.innerText.includes(newState)) ? '#00ffcc' : '#333';
+        });
+    }
+};
