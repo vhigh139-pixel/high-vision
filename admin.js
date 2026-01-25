@@ -103,3 +103,32 @@ const Admin = {
 
 // Auto-load on startup
 window.onload = () => { Admin.loadFromBrowser(); };
+// Add this to the top of admin.js with your other arrays
+const gravityZones = []; 
+
+// Add these to your Admin object
+const Admin = {
+    // ... existing functions ...
+    brushType: 'PLATFORM', // Can be 'PLATFORM' or 'GRAVITY'
+
+    toggleBrush() {
+        this.brushType = (this.brushType === 'PLATFORM') ? 'GRAVITY' : 'PLATFORM';
+        this.log(`BRUSH: ${this.brushType}`);
+    },
+
+    spawnGravityZone(mouseX, mouseY) {
+        gravityZones.push({ x: mouseX - 50, y: mouseY - 50, w: 100, h: 100, strength: 200 });
+        this.log("GRAVITY ZONE CREATED");
+    }
+};
+
+// Update your existing mousedown listener in admin.js
+canvas.addEventListener('mousedown', (e) => {
+    if (Admin.isEditorMode) {
+        if (Admin.brushType === 'PLATFORM') {
+            Admin.spawnPlatform(e.clientX, e.clientY);
+        } else {
+            Admin.spawnGravityZone(e.clientX, e.clientY);
+        }
+    }
+});
