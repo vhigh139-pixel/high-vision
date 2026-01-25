@@ -2,181 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>High-Vision: Master Admin</title>
-    <style>
-        body { margin: 0; overflow: hidden; background: #050505; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        canvas { display: block; background: #000; }
-        
-        /* ADMIN INTERFACE */
-        #admin-hub {
-            position: absolute; top: 15px; left: 15px; width: 240px;
-            background: rgba(0, 20, 20, 0.9); border: 2px solid #00ffcc;
-            color: #00ffcc; padding: 20px; z-index: 1000; border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
-        }
-        .btn {
-            width: 100%; padding: 12px; margin: 8px 0;
-            background: #111; color: #00ffcc; border: 1px solid #00ffcc;
-            cursor: pointer; font-weight: bold; text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .btn:hover { background: #00ffcc; color: #000; }
-        .active-red { background: #ff3366 !important; color: white !important; border-color: white !important; }
-    </style>
+    <title>High-Vision | Admin Edition</title>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
-<div id="admin-hub">
-    <h3 style="margin:0 0 15px 0; text-align:center; letter-spacing: 2px;">ADMIN CONTROL</h3>
-    <button class="btn" onclick="toggleGod()">GOD MODE: <span id="god-txt">OFF</span></button>
-    <button class="btn" id="freeze-btn" onclick="toggleFreeze()">FREEZE ARMY: OFF</button>
-    <button class="btn" onclick="massErase()" style="color:#ffaa00; border-color:#ffaa00;">MASS ERASE</button>
-    <button class="btn" onclick="player.x = 100; player.y = 100;">RESET PLAYER</button>
-</div>
+    <div id="admin-panel">
+        <h2>SYSTEM ADMIN</h2>
+        <button onclick="Admin.toggleGod()">GOD MODE: <span id="god-status">OFF</span></button>
+        <button onclick="Admin.toggleFreeze()" id="freeze-btn">FREEZE ARMY: OFF</button>
+        <button onclick="Admin.massErase()" class="danger">MASS ERASE</button>
+        <button onclick="Admin.spawnEnemy()">SPAWN UNIT</button>
+        <hr>
+        <p>Speed: <input type="range" min="100" max="3000" oninput="player.speed = this.value"></p>
+    </div>
 
-<canvas id="gameCanvas"></canvas>
+    <canvas id="gameCanvas"></canvas>
 
-<script>
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-// --- GAME SETTINGS ---
-let lastTime = 0;
-let worldTimeScale = 1.0;
-let isGodMode = false;
-const WORLD_WIDTH = 2000; 
-const FLOOR_Y = canvas.height - 100;
-const input = { left: false, right: false, up: false };
-
-// --- INPUT LISTENERS ---
-window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') input.left = true;
-    if (e.key === 'ArrowRight') input.right = true;
-    if (e.key === 'ArrowUp') input.up = true;
-});
-window.addEventListener('keyup', (e) => {
-    if (e.key === 'ArrowLeft') input.left = false;
-    if (e.key === 'ArrowRight') input.right = false;
-    if (e.key === 'ArrowUp') input.up = false;
-});
-
-// --- PLAYER ENGINE ---
-class Player {
-    constructor() {
-        this.x = 100; this.y = FLOOR_Y - 40;
-        this.w = 40; this.h = 40;
-        this.vx = 0; this.vy = 0;
-        this.speed = 1500; this.gravity = 1600; this.jump = -750;
-    }
-    update(dt) {
-        if (input.left) this.vx -= this.speed * dt;
-        if (input.right) this.vx += this.speed * dt;
-        this.vx *= 0.88; // Friction
-
-        this.vy += this.gravity * dt;
-        if (input.up && this.y >= FLOOR_Y - this.h) { this.vy = this.jump; }
-
-        this.x += this.vx * dt;
-        this.y += this.vy * dt;
-
-        if (this.y > FLOOR_Y - this.h) { this.y = FLOOR_Y - this.h; this.vy = 0; }
-        
-        // World Boundaries
-        if (this.x < 0) this.x = 0;
-    }
-    draw(camX) {
-        ctx.fillStyle = isGodMode ? '#ff00ff' : '#00ffcc';
-        if (isGodMode) { ctx.shadowBlur = 25; ctx.shadowColor = 'white'; }
-        ctx.fillRect(this.x - camX, this.y, this.w, this.h);
-        ctx.shadowBlur = 0;
-    }
-}
-
-// --- ENEMY ENGINE ---
-class Enemy {
-    constructor(x) {
-        this.x = x; this.y = FLOOR_Y - 40;
-        this.w = 40; this.h = 40;
-    }
-    update(dt) {
-        // Enemies only move if the world is not frozen
-        this.x -= (200 * worldTimeScale) * dt;
-        if (this.x < -100) this.x = WORLD_WIDTH + 100;
-    }
-    draw(camX) {
-        ctx.fillStyle = '#ff4444';
-        ctx.fillRect(this.x - camX, this.y, this.w, this.h);
-    }
-}
-
-const player = new Player();
-let army = [new Enemy(800), new Enemy(1300), new Enemy(1800)];
-
-// --- ADMIN COMMANDS ---
-function toggleGod() {
-    isGodMode = !isGodMode;
-    document.getElementById('god-txt').innerText = isGodMode ? "ON" : "OFF";
-}
-
-function toggleFreeze() {
-    const btn = document.getElementById('freeze-btn');
-    if (worldTimeScale > 0) {
-        worldTimeScale = 0;
-        btn.innerText = "FREEZE ARMY: ACTIVE";
-        btn.classList.add('active-red');
-    } else {
-        worldTimeScale = 1.0;
-        btn.innerText = "FREEZE ARMY: OFF";
-        btn.classList.remove('active-red');
-    }
-}
-
-function massErase() {
-    army = [];
-    console.log("ADMIN: All threats eliminated.");
-}
-
-// --- CORE LOOP ---
-function gameLoop(timestamp) {
-    const dt = (timestamp - lastTime) / 1000 || 0;
-    lastTime = timestamp;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Camera follow (Centered on player)
-    const camX = Math.max(0, Math.min(player.x - canvas.width / 2, WORLD_WIDTH - canvas.width));
-
-    // Draw Floor (The 1000px line)
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(0 - camX, FLOOR_Y);
-    ctx.lineTo(WORLD_WIDTH - camX, FLOOR_Y);
-    ctx.stroke();
-
-    // Update & Draw Entities
-    player.update(dt);
-    player.draw(camX);
-
-    army.forEach(enemy => {
-        enemy.update(dt);
-        enemy.draw(camX);
-
-        // Collision Check (Bypassed by God Mode)
-        if (!isGodMode && 
-            player.x < enemy.x + enemy.w && 
-            player.x + player.w > enemy.x &&
-            player.y < enemy.y + enemy.h && 
-            player.y + player.h > enemy.y) {
-            player.x = 100; // Reset
-        }
-    });
-
-    requestAnimationFrame(gameLoop);
-}
-requestAnimationFrame(gameLoop);
-</script>
+    <script src="game.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
