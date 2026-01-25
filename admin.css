@@ -1,0 +1,13 @@
+#admin-panel {
+    position: absolute; top: 10px; left: 10px; 
+    background: rgba(0,0,0,0.9); color: #00ffcc;
+    padding: 20px; border: 2px solid #00ffcc;
+    font-family: monospace; border-radius: 10px;
+}
+button {
+    display: block; width: 100%; margin: 5px 0;
+    background: #111; color: #00ffcc; border: 1px solid #00ffcc;
+    cursor: pointer; padding: 10px;
+}
+button:hover { background: #00ffcc; color: black; }
+.danger { border-color: red; color: red; }
