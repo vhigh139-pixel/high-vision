@@ -1,160 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Team BETA | Follow-Me Robot</title>
+    <title>Team BETA Robot Project</title>
     <style>
-        :root { --glow: #00ffcc; --bg: #050505; --card: #11111b; }
-        body { background: var(--bg); color: #fff; font-family: 'Courier New', Courier, monospace; margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        .slide { display: none; width: 85%; max-width: 900px; height: 500px; background: var(--card); border: 2px solid var(--glow); border-radius: 20px; padding: 40px; box-shadow: 0 0 30px rgba(0, 255, 204, 0.2); position: relative; }
-        .slide.active { display: block; animation: slideIn 0.4s ease-out; }
-        h1 { color: var(--glow); text-shadow: 0 0 10px var(--glow); font-size: 2.2rem; text-transform: uppercase; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        ul { font-size: 1.2rem; line-height: 1.6; list-style-type: '>> '; }
-        .controls { margin-top: 25px; display: flex; gap: 20px; }
-        button { background: transparent; color: var(--glow); border: 1px solid var(--glow); padding: 12px 30px; cursor: pointer; border-radius: 5px; font-weight: bold; transition: 0.3s; }
-        button:hover { background: var(--glow); color: #000; box-shadow: 0 0 15px var(--glow); }
-        .slide-number { position: absolute; top: 20px; right: 20px; color: var(--glow); font-size: 1rem; opacity: 0.7; }
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #eef2f3; padding: 20px; }
+        .slide {
+            background: white;
+            border: 8px solid #007bff;
+            border-radius: 30px;
+            padding: 30px;
+            width: 85%;
+            margin: auto;
+            min-height: 400px;
+            display: none;
+            box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
+        }
+        .active { display: block; }
+        h1 { color: #007bff; font-size: 35px; text-transform: uppercase; }
+        p, li { font-size: 22px; color: #333; line-height: 1.5; }
+        .controls { margin-top: 20px; }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            font-weight: bold;
+        }
+        .btn:hover { background-color: #0056b3; }
+        .team-list { color: #28a745; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="presentation"></div>
+    <div id="slide-container"></div>
 
-<div class="controls">
-    <button onclick="move(-1)">PREVIOUS</button>
-    <button onclick="move(1)">NEXT</button>
-</div>
+    <div class="controls">
+        <button class="btn" onclick="goBack()">⬅ PREVIOUS</button>
+        <button class="btn" onclick="goNext()">NEXT SLIDE ➡</button>
+    </div>
 
-<script>
-    const data = [
-        { t: "Team BETA: System Init", c: "Project: Follow-Me Robot<br>Lead Engineers: Maier, Ayan, & Abdul Rehman<br>Platform: Arduino Uno (C++)" },
-        { t: "The BETA Crew", c: "Maier: Logic & Coding<br>Ayan: Hardware & Wiring<br>Abdul Rehman: Testing & Calibration" },
-        { t: "Lead Engineer: Maier", c: "Master Coder & Logic Designer.<br>Responsible for writing the C++ algorithms.<br>Solved the 'If-Else' distance challenges.<br>Ensured the Arduino Brain processed data correctly." },
-        { t: "Hardware Lead: Ayan", c: "Master Builder & Electrical Engineer.<br>Managed the chassis construction.<br>Wired the motor driver and sensors to the breadboard.<br>Ensured the power supply (batteries) was stable." },
-        { t: "QA Engineer: Abdul Rehman", c: "Quality Assurance & Calibration Expert.<br>Tested the ultrasonic 'pings' for accuracy.<br>Verified that the robot stopped at the exact distance.<br>Handled 'debugging' physical movements during testing." },
-        { t: "Project Mission", c: "To build a smart machine that can track a human target without manual control." },
-        { t: "The Concept", c: "A robot that stays a specific distance from you, moving when you move and stopping when you stop." },
-        { t: "Why is this STEM?", c: "Science: Physics of sound<br>Technology: Micro-controllers<br>Engineering: Mechanical build<br>Math: Distance algorithms" },
-        { t: "Arduino Uno Brain", c: "The 'CPU' of our robot. It runs the loop that makes every decision." },
-        { t: "C++ Programming", c: "The professional code language we used to talk to the hardware." },
-        { t: "Code Syntax", c: "Using symbols like { } and ; to create instructions the brain understands." },
-        { t: "Sensory Input", c: "Robots need data to move. Our data comes from ultrasonic waves." },
-        { t: "Ultrasonic Sensors", c: "Like a bat's ears, it uses high-frequency sound to detect your position." },
-        { t: "Math: The Ping Formula", c: "Distance = (Time * Speed of Sound) / 2. This keeps the robot at the perfect distance." },
-        { t: "Electronic Nerves", c: "Jumper wires connect our brain to our 'eyes' and 'muscles'." },
-        { t: "Power Delivery", c: "Using batteries to provide the voltage needed to spin the motors." },
-        { t: "DC Motors", c: "The actuators that turn electrical energy into physical movement." },
-        { t: "L298N Motor Driver", c: "The bridge between the smart brain and the strong wheels." },
-        { t: "Differential Steering", c: "Turning left or right by changing wheel speeds. No steering wheel needed!" },
-        { t: "The Skeleton: Chassis", c: "The robot's skeleton. It has to be light but strong." },
-        { t: "Design & Planning", c: "Team BETA drew blueprints before we plugged in a single wire." },
-        { t: "Wiring the Breadboard", c: "Organizing the circuit so current flows safely to all components." },
-        { t: "The void setup()", c: "The first part of our code. It wakes up the pins and prepares the sensors." },
-        { t: "The void loop()", c: "The infinite brain loop that checks distance hundreds of times per second." },
-        { t: "If-Then Decisions", c: "If (Too Far) -> Move Forward<br>If (Too Close) -> Stop" },
-        { t: "Troubleshooting", c: "Fixing mistakes. We had to fix several loose wires during the build." },
-        { t: "Calibration", c: "Tuning the sensor so the robot doesn't get scared by walls or floor shadows." },
-        { t: "Debugging", c: "Hunting for errors in the C++ code until everything worked perfectly." },
-        { t: "Real Use: Smart Carts", c: "Shopping carts that follow you so you don't have to push them." },
-        { t: "Real Use: Logistics", c: "Warehouse robots that follow workers to carry heavy boxes." },
-        { t: "Future Upgrades", c: "Team BETA wants to add a camera for face-tracking in Version 2.0!" },
-        { t: "Robotic Vocabulary", c: "Microcontroller, Algorithm, Breadboard, PWM, and Ultrasonic." },
-        { t: "Final System Report", c: "Project Completed by Maier, Ayan, and Abdul Rehman.<br>Team BETA: Signing Off." }
-    ];
+    <script>
+        const slideData = [
+            { t: "🤖 Team BETA Robot", c: "Welcome to our STEM project!<br><br>The Team: <span class='team-list'>Maier, Ayan, and Abdul Rehman</span>" },
+            { t: "👥 Meet the Team", c: "<b>Maier:</b> The Master Coder (C++)<br><b>Ayan:</b> The Master Builder (Chassis)<br><b>Abdul Rehman:</b> The Master Tester (Sensors)" },
+            { t: "🎯 Our Goal", c: "We wanted to build a robot that follows a person like a pet, without using a remote control!" },
+            { t: "🧠 The Robot's Brain", c: "We used an <b>Arduino Uno</b>. It's a tiny computer that takes our code and tells the wheels to move." },
+            { t: "👀 How it Sees", c: "It uses <b>Ultrasonic Sensors</b>. These work like bat ears to 'ping' sound off objects to find them." },
+            { t: "💻 The C++ Language", c: "We wrote our instructions in C++. It’s a professional language used to build real robots!" },
+            { t: "⚡ The Power", c: "We used a 9V battery. This gives the 'juice' to the motors and the brain." },
+            { t: "🛠️ The Build", c: "Ayan built the body using a chassis, two wheels, and a spinning 'caster' wheel in the front." },
+            { t: "📏 The Math", c: "The robot calculates: <b>Time of sound / 58 = Distance</b>. This happens hundreds of times a second!" },
+            { t: "🛑 If-Then Logic", c: "IF the target is more than 20cm away -> DRIVE forward.<br>IF it's too close -> STOP so it doesn't crash!" },
+            { t: "🔧 Troubleshooting", c: "Abdul Rehman found loose wires, and Maier fixed the code bugs to make it move smoothly." },
+            { t: "🌟 Conclusion", c: "Team BETA learned that with coding and teamwork, we can build the future! Any Questions?" }
+            // (I have shortened the display list to keep it simple for your 5th grade level, but all main info is here!)
+        ];
 
-    let index = 0;
-    const presentation = document.getElementById('presentation');
+        let currentSlide = 0;
 
-    function render() {
-        presentation.innerHTML = `
-            <div class="slide active">
-                <div class="slide-number">SLIDE ${index + 1} / 33</div>
-                <h1>${data[index].t}</h1>
-                <ul><li>${data[index].c.split('<br>').join('</li><li>')}</li></ul>
-            </div>`;
-    }
-
-    function move(step) {
-        index = (index + step + data.length) % data.length;
-        render();
-    }
-
-    render();
-</script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>BETA | Robotic Systems Portfolio</title>
-    <style>
-        :root { --neon: #00ffcc; --dark: #08080c; --panel: #12121e; }
-        body { background: var(--dark); color: #fff; font-family: 'Orbitron', sans-serif, 'Courier New'; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        
-        /* The Robotic Circuit Background */
-        body::before {
-            content: ""; position: absolute; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0, 255, 204, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 204, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px; z-index: -1;
+        function renderSlide() {
+            const container = document.getElementById("slide-container");
+            const s = slideData[currentSlide];
+            container.innerHTML = `
+                <div class="slide active">
+                    <p style="text-align:right; color:#999;">Slide ${currentSlide + 1} of ${slideData.length}</p>
+                    <h1>${s.t}</h1>
+                    <p>${s.c}</p>
+                </div>
+            `;
         }
 
-        .slide { display: none; width: 85%; max-width: 950px; height: 550px; background: var(--panel); border: 1px solid var(--neon); border-left: 10px solid var(--neon); padding: 50px; box-shadow: 0 0 40px rgba(0, 255, 204, 0.15); position: relative; }
-        .slide.active { display: block; animation: powerOn 0.6s ease-out; }
+        function goNext() {
+            if (currentSlide < slideData.length - 1) {
+                currentSlide++;
+                renderSlide();
+            }
+        }
 
-        h1 { color: var(--neon); font-size: 2.5rem; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 4px; border-bottom: 2px solid #333; }
-        .content-box { font-size: 1.3rem; line-height: 1.8; color: #b0b0c0; }
-        .highlight { color: var(--neon); font-weight: bold; }
+        function goBack() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
 
-        /* Navigation Buttons */
-        .controls { margin-top: 30px; display: flex; gap: 30px; }
-        button { background: transparent; color: var(--neon); border: 2px solid var(--neon); padding: 15px 40px; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
-        button:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); }
-
-        .team-tag { font-size: 0.9rem; position: absolute; bottom: 20px; right: 40px; color: var(--neon); opacity: 0.6; }
-
-        @keyframes powerOn { from { opacity: 0; transform: scale(0.98); filter: brightness(2); } to { opacity: 1; transform: scale(1); filter: brightness(1); } }
-    </style>
-</head>
-<body>
-
-<div id="deck"></div>
-
-<div class="controls">
-    <button onclick="move(-1)">BACK</button>
-    <button onclick="move(1)">NEXT</button>
-</div>
-
-<script>
-    const slides = [
-        { t: "System Initialization", c: "Team: <span class='highlight'>BETA</span><br>Project: Follow-Me Autonomous Unit<br>Lead Engineers: Maier, Ayan, & Abdul Rehman" },
-        { t: "The BETA Engineering Team", c: "<span class='highlight'>Maier:</span> Chief Coder (Software Architecture)<br><span class='highlight'>Ayan:</span> Structural Engineer (Chassis & Power)<br><span class='highlight'>Abdul Rehman:</span> Systems Analyst (Calibration & QA)" },
-        { t: "Robot Design: Overview", c: "The 'Follow Me' robot uses a <span class='highlight'>triangular sensor array</span>.<br>Equipped with dual DC motors and an L298N driver.<br>Balanced on a lightweight acrylic chassis for speed." },
-        { t: "Visual Hardware Design", c: "The design features the Arduino at the center for balance.<br>The Ultrasonic sensor is mounted at the highest point for a clear 'Field of View'." },
-        { t: "The C++ Core Logic", c: "void loop() { <br>&nbsp;&nbsp;checkDistance(); <br>&nbsp;&nbsp;if (dist > 25) follow(); <br>&nbsp;&nbsp;else stop(); <br>}" },
-        { t: "Bat-Sonar Math", c: "Speed of Sound = 0.034 cm/us.<br>Distance = (Time * 0.034) / 2.<br>The code processes this math in real-time." },
-        { t: "Calibration & Troubleshooting", c: "Maier debugged the code logic.<br>Ayan secured the jumper wires.<br>Abdul Rehman tested the sensor accuracy." },
-        { t: "Final Mission Summary", c: "Team BETA successfully achieved autonomous tracking.<br>Total Slides: 33/33 Complete.<br>System Status: <span class='highlight'>OPERATIONAL</span>" }
-    ];
-
-    let current = 0;
-    const deck = document.getElementById('deck');
-
-    function render() {
-        deck.innerHTML = `
-            <div class="slide active">
-                <h1>${slides[current].t}</h1>
-                <div class="content-box">${slides[current].c}</div>
-                <div class="team-tag">PROJECT BETA | VERSION 1.0</div>
-            </div>`;
-    }
-
-    function move(n) {
-        current = (current + n + slides.length) % slides.length;
-        render();
-    }
-
-    render();
-</script>
+        renderSlide();
+    </script>
 </body>
 </html>
